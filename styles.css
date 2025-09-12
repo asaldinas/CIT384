@@ -8,7 +8,7 @@ h1 {
 img {
     display: flex;
     margin: auto;
-    width: 30%;
+    width: 20%;
     justify-content: center;
 }
 label{

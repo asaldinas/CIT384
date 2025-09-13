@@ -16,7 +16,7 @@ console.log("Created the DB or SQlite DB does already exist");
 
 let sql = `CREATE TABLE IF NOT EXISTS users(
     Id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT NOT NULL,
+    username TEXT NOT NULL UNIQUE,
     hashed_password TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 )`;

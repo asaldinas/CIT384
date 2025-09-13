@@ -43,7 +43,7 @@ app.post('/api', (req, res)=>{
             if(err) throw err;
             newID = this.lastID;//provides the autoincrement integer user ID
             res.status(201);
-            let data = { status: 201, message: `username ${newiD} saved.`};
+            let data = { status: 201, message: `username ${newID} saved.`};
             let content = JSON.stringify(data);
             res.send(content);
         });

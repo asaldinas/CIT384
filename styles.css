@@ -2,6 +2,7 @@ h1 {
     font-size: 15;
     font-family: cursive;
     text-align: center;
+    justify-content: center;
     padding: 20px;
     color: aliceblue;
 }
@@ -10,6 +11,7 @@ img {
     margin: auto;
     width: 20%;
     justify-content: center;
+    text-align: center;
 }
 label{
     color: aliceblue;
@@ -20,5 +22,5 @@ div{
     text-align: center;
 }
 body{
-    background-color: #003049;
+    background-color: #edf6f9;
 }

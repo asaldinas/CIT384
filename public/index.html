@@ -8,18 +8,31 @@
   <link rel = "icon" type = "image/png" href = "csu_northridge_wbg.png"/>
 </head>
 <body> 
-  <img src = "charging-bull.gif" alt = "bull" class = "center">
-  <br />
-  <br />
-  <div>
-      <form id = "user-form" action = "/api" method = "post" novalidate>
-        <input type = "text" id = "username" name = "username" required placeholder="Username" />
-        <br/>
-        <input type = "password" id = "user-password" name = "password" required placeholder="Password" />
-        <br/>
-        <button type = "submit">Submit</button>
-      </form>
-      <p id = "status" aria-live = "polite"></p>
+  <div class = "container">
+    <div class = "left">
+      <div clas = "content">
+      <div class = "form-box">
+        <h2>Login</h2>
+            <form id = "user-form" action = "/api" method = "post" novalidate>
+            <input type = "text" id = "username" name = "username" required placeholder="Username" />
+            <br/>
+            <input type = "password" id = "user-password" name = "password" required placeholder="Password" />
+            <br/>
+            <button type = "submit">Submit</button>
+            </form>
+           <p id = "status" aria-live = "polite"></p>
+      </div>
+          <footer class = "icons">
+              <i class="fa-solid fa-link"></i>
+              <i class="fa-brands fa-square-instagram"></i>
+              <i class="fa-brands fa-x-twitter"></i>
+              <i class="fa-brands fa-tiktok"></i>
+          </footer>
+      </div>
+    </div>
+    <div class = "right">
+      <img src="annex.jpg" alt="login image">
+    </div>
   </div>
   <script src = "js/home.js"></script>
    </body>

@@ -1,0 +1,18 @@
+img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 250px;
+    height: 200px;
+}
+form{
+    justify-content: center;
+    text-align: center;
+}
+body
+{
+    border: 15px solid skyblue;
+    padding: 50px;
+    margin: 20px;
+    background-color: #0d1b2a;
+}

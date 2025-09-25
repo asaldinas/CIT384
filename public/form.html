@@ -3,16 +3,20 @@
     <head>
         <meta charset="UTF-8">
         <meta name = "viewport" content = "width=device-width, initial scale = 1.0">
-        <link rel = "forms" href = "forms.css">
+        <link rel = "stylesheet" href = "forms.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
         <title>Submit Maintenance Form</title>
     </head>
     <body>
         <div class = "container">
-            <h3>Submit your maintenance request</h3>
+            <h3 style="color: white;">Submit your maintenance request</h3>
         </div>
         <div class = "form">
-         <form id = "maintenance form">
+         <form id = "maintenance_form">
             <h3>Enter details of your maintenance request below.</h3>
+            <div class = "dropdn">
             <label for = "dropdown">Maintenance category:</label>
             <select id = "dropdown" name = "selection">
                 <option value="opt1">Plumbing</option>
@@ -21,15 +25,11 @@
                 <option value="opt4">Construction</option>
                 <option value="opt5">Other</option>
             </select>
-            <br>
-            <br>
+            </div>
             <input type="text" id = "description" placeholder="Description:">
-            <br><br>
-            <h3>Images:</h3> <input type = "file" id = "myfile" name = "fileName" accept= ".jpg, .png" multiple>
-            <br><br>
+            <h3 style="text-align: left;">Images:</h3> <input type = "file" id = "myfile" name = "fileName" accept= ".jpg, .png" multiple>
             <input type="text" id = "location" placeholder="Location (nearest building or street):">
-            <br><br>
-            <input type="text" id = "commecnts" placeholder="Additional comments:">
+            <input type="text" id = "comments" placeholder="Additional comments:">
             <div class = "submission">
                 <button type="submit">Submit</button>
           </form>

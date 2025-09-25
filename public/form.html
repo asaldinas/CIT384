@@ -3,9 +3,37 @@
     <head>
         <meta charset="UTF-8">
         <meta name = "viewport" content = "width=device-width, initial scale = 1.0">
+        <link rel = "forms" href = "forms.css">
         <title>Submit Maintenance Form</title>
     </head>
     <body>
-        
+        <div class = "container">
+            <h3>Submit your maintenance request</h3>
+        </div>
+        <div class = "form">
+         <form id = "maintenance form">
+            <h3>Enter details of your maintenance request below.</h3>
+            <label for = "dropdown">Maintenance category:</label>
+            <select id = "dropdown" name = "selection">
+                <option value="opt1">Plumbing</option>
+                <option value="opt2">HVAC</option>
+                <option value="opt3">Electrical</option>
+                <option value="opt4">Construction</option>
+                <option value="opt5">Other</option>
+            </select>
+            <br>
+            <br>
+            <input type="text" id = "description" placeholder="Description:">
+            <br><br>
+            <h3>Images:</h3> <input type = "file" id = "myfile" name = "fileName" accept= ".jpg, .png" multiple>
+            <br><br>
+            <input type="text" id = "location" placeholder="Location (nearest building or street):">
+            <br><br>
+            <input type="text" id = "commecnts" placeholder="Additional comments:">
+            <div class = "submission">
+                <button type="submit">Submit</button>
+          </form>
+            </div>
+        </div>
     </body>
 </html>

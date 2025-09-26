@@ -12,10 +12,22 @@
     <body>
         <div class = "container">
             <h3 style="color: white;">Submit your maintenance request</h3>
-        </div>
-        <div class = "form">
-         <form id = "maintenance_form">
+
+            <div class = "form">
             <h3>Enter details of your maintenance request below.</h3>
+            
+            <div class = "desc">
+            <h3>Description:</h3>
+            <input type="text" id = "description" placeholder="Enter description:">
+            </div>
+            <div class = "img">
+            <h3>Images:</h3> <input type = "file" id = "myfile" name = "fileName" accept= ".jpg, .png" multiple>
+            </div>
+            <div class = "loc">
+                <h3>Location (nearest building or street):</h3>
+            <input type="text" id = "location">
+            </div>
+             <form id = "maintenance_form">
             <div class = "dropdn">
             <label for = "dropdown">Maintenance category:</label>
             <select id = "dropdown" name = "selection">
@@ -25,15 +37,16 @@
                 <option value="opt4">Construction</option>
                 <option value="opt5">Other</option>
             </select>
+            <br><br>
+        </div>
+            <div class = "comms">
+                <h3>Additional comments:</h3>
+            <input type="text" id = "comments">
             </div>
-            <input type="text" id = "description" placeholder="Description:">
-            <h3 style="text-align: left;">Images:</h3> <input type = "file" id = "myfile" name = "fileName" accept= ".jpg, .png" multiple>
-            <input type="text" id = "location" placeholder="Location (nearest building or street):">
-            <input type="text" id = "comments" placeholder="Additional comments:">
             <div class = "submission">
                 <button type="submit">Submit</button>
           </form>
+          </div>
             </div>
-        </div>
     </body>
 </html>

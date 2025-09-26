@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8"/>
+  <meta name = "viewport" content = "width=device-width, initial scale = 1.0">
+  <link rel = "stylesheet" href = "styles.css"/>
+  <title>Matadors Maintenance</title>
+  <link rel = "icon" type = "image/png" href = "csu_northridge_wbg.png"/>
+</head>
+<body> 
+  <div class = "container">
+    <div class = "left">
+      <div class = "content">
+      <div class = "form-box">
+        <h2>Register</h2>
+            <form id = "user-form" action = "/api" method = "post" novalidate>
+            <input type = "text" id = "Email" name = "Email" required placeholder="Email" />
+            <br/>
+            <input type = "text" id = "username" name = "username" required placeholder="Username" />
+            <input type = "password" id = "user-password" name = "password" required placeholder="Password" />
+            <h5>Re-enter password:</h5><input type = "password" id = "user-password" name = "password" required placeholder="Password" />
+            <br>
+            <button type = "submit">Submit</button>
+            <h1>Already have an account? <a href = "index.html">Login</a></h1>
+            </form>
+      </div>
+      <div class = "icons">
+          <footer class = "favIcon">
+              <i class="fa-solid fa-link"></i>
+              <i class="fa-brands fa-square-instagram"></i>
+              <i class="fa-brands fa-x-twitter"></i>
+              <i class="fa-brands fa-tiktok"></i>
+          </footer>
+          </div>
+      </div>
+    </div>
+    <div class = "right">
+      <img src="annex.jpg" alt="login image">
+    </div>
+  </div>
+  <script src = "js/home.js"></script>
+   </body>
+</html>

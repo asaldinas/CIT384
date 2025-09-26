@@ -1,59 +1,124 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background-color: #4a5759;
+/* Page/base */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #4a5759;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
-.container{
-    display: flex;
-    height: 100vh;
+
+/* Layout */
+.container {
+  display: flex;
+  height: 100vh;
 }
-.left{
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #4a5759;
+
+.left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;         /* stack content and icons */
+  align-items: center;
+  background-color: #4a5759;
+  position: relative;
+  padding: 24px;
 }
-.right{
-    flex: 1;
-    overflow: hidden;
+
+.content {
+  width: 100%;
+  max-width: 360px;               /* keeps boxes tidy */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;                      /* space between Login box and Submit box */
+  margin-top: auto;               /* vertically centers with icons at bottom */
+  margin-bottom: 72px;            /* leave room above footer icons */
 }
-.right img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+
+.right {
+  flex: 1;
+  overflow: hidden;
 }
+.right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Boxes */
 .form-box{
-    width: 80%;
-    max-width: 300px;
-    background: #adb5bd;
-    padding: 2rem;
-    box-shadow: 0 4px 12px rgba(0,0,0);
-    border-radius: 8px;
+  width: auto;
+  background: #adb5bd;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  text-align: center;
 }
-.form-box input, 
-.form-box button{
-    width: 100%;
-    margin-bottom: 1rem;
-    padding: 0.5rem;
+
+.sub-box {
+  width: auto;
+  padding: 1.5rem;
+  box-shadow: 0 4px 5px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  text-align: center;
 }
-.content{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 80%;
+
+.form-box h2 {
+  margin: 0 0 12px 0;
+  text-align: center;
 }
-.icons{
-    margin-top: 2rem;
-    text-align: center;
+
+.form-box input {
+  width: auto;
+  margin-bottom: 0.75rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid #8b949e;
+  border-radius: 8px;
+  outline: none;
 }
-.icons i{
-    font-size: 1.5rem;
-    margin: 0 10px;
-    cursor: pointer;
-    transition: color 0.5s;
+
+/* Submit button box */
+.sub-box .button_class {
+  display: inline-block;
+  width: 50%;
+  text-align: center;
+  padding: 0.7rem 0.5rem;
+  border-radius: 3px;
+  background: #e9ecef;
+  color: #111;
+  font-weight: 500;
+  font-size: larger;
+  /*border: 1px solid #adb5bd;*/
+  transition: transform 0.05s ease, box-shadow 0.2s ease;
 }
-.icons i:hover{
-    color: #ff4081;
+.sub-box .button_class:hover {
+  box-shadow: 0 2px 2px rgba(0,0,0,0.25);
+}
+.sub-box .button_class:active {
+  transform: translateY(1px);
+}
+
+/* Footer icons */
+.icons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: absolute;   /* keep at bottom */
+  left: 0;
+  bottom: 16px;
+}
+.favIcon {
+  color: #f1f3f5;       /* visible on dark background */
+  display: flex;
+  gap: 16px;
+  font-size: 22px;
+}
+
+/* Optional link style reset */
+a {
+  text-decoration: none;
+}
+
+/* Optional small heading style */
+h1 {
+  font-weight: 200;
+  font-size: small;
 }

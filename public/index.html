@@ -1,39 +1,53 @@
 <!DOCTYPE html>
-<html lang = "en">
+<html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name = "viewport" content = "width=device-width, initial scale = 1.0">
-  <link rel = "stylesheet" href = "styles.css"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="csu_northridge_wbg.png" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2Pkf1lT1Q9rjv9C6V2bRrVt6QhYy5YQh1T7gqgZ0ZxGqz6pVxP5QW2G2zQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
   <title>Matadors Maintenance</title>
-  <link rel = "icon" type = "image/png" href = "csu_northridge_wbg.png"/>
 </head>
-<body> 
-  <div class = "container">
-    <div class = "left">
-      <div clas = "content">
-      <div class = "form-box">
-        <h2>Login</h2>
-            <form id = "user-form" action = "/api" method = "post" novalidate>
-            <input type = "text" id = "username" name = "username" required placeholder="Username" />
-            <br/>
-            <input type = "password" id = "user-password" name = "password" required placeholder="Password" />
-            <br/>
-            <button type = "submit">Submit</button>
-            </form>
-           <p id = "status" aria-live = "polite"></p>
+<body>
+  <div class="container">
+    <div class="left">
+      <div class="content">
+        <div class="form-box">
+          <h2>Login</h2>
+          <form id="user-form" action="/api" method="post" novalidate>
+            <input type="text" id="username" name="username" required placeholder="Username" />
+            <input type="password" id="user-password" name="password" required placeholder="Password" />
+            <br>
+            <h2>Don't have an account? <a href = "register.html">Register.</a></h2>
+          </form>
+        </div>
+
+        <!-- Separate submission box under the login box -->
+        <div class="sub-box">
+          <a href="form.html" class="button_class">Submit</a>
+        </div>
       </div>
-          <footer class = "icons">
-              <i class="fa-solid fa-link"></i>
-              <i class="fa-brands fa-square-instagram"></i>
-              <i class="fa-brands fa-x-twitter"></i>
-              <i class="fa-brands fa-tiktok"></i>
-          </footer>
+
+      <div class="icons">
+        <footer class="favIcon">
+          <i class="fa-solid fa-link"></i>
+          <i class="fa-brands fa-square-instagram"></i>
+          <i class="fa-brands fa-x-twitter"></i>
+          <i class="fa-brands fa-tiktok"></i>
+        </footer>
       </div>
     </div>
-    <div class = "right">
-      <img src="annex.jpg" alt="login image">
+
+    <div class="right">
+      <img src="annex.jpg" alt="login image" />
     </div>
   </div>
-  <script src = "js/home.js"></script>
-   </body>
+
+  <script src="js/home.js"></script>
+</body>
 </html>

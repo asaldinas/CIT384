@@ -7,10 +7,9 @@
   <link rel="stylesheet" href="styles.css" />
 
   <!-- Font Awesome for icons -->
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2Pkf1lT1Q9rjv9C6V2bRrVt6QhYy5YQh1T7gqgZ0ZxGqz6pVxP5QW2G2zQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" 
+  integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" 
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
   <title>Matadors Maintenance</title>
 </head>
 <body>
@@ -19,17 +18,16 @@
       <div class="content">
         <div class="form-box">
           <h2>Login</h2>
-          <form id="user-form" action="/api" method="post" novalidate>
-            <input type="text" id="username" name="username" required placeholder="Username" />
-            <input type="password" id="user-password" name="password" required placeholder="Password" />
+          <form id="user-form" action="/api" method="post">
+            <input id="username" type="text" name="username" placeholder="Username">
+            <input type="password" id="user-password" name="password" placeholder="Password">
             <br>
             <h2>Don't have an account? <a href = "register.html">Register.</a></h2>
-          </form>
+            <div>
+              <button type= "submit" id = 'submit' >Submit</button>
+              <!--   <a href="form.html" class="button_class">Submit</a> -->
         </div>
-
-        <!-- Separate submission box under the login box -->
-        <div class="sub-box">
-          <a href="form.html" class="button_class">Submit</a>
+          </form>
         </div>
       </div>
 
@@ -46,8 +44,7 @@
     <div class="right">
       <img src="annex.jpg" alt="login image" />
     </div>
-  </div>
-
-  <script src="js/home.js"></script>
+  </div>s
+    <script src = "home.js"></script>
 </body>
 </html>

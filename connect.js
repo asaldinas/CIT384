@@ -3,7 +3,7 @@ const sql3 = sqlite3.verbose();
 
 //const DB = new sql3.Database('memory:', sqlite3.OPEN_READWRITE, connected); //create DB in memory while node is running, shut down when node is not running
 //const DB = new sql3.Database('', sqlite3.OPEN_READWRITE, connected); //anonymous file
-const DB = new sql3.Database('./data.db', sqlite3.OPEN_READWRITE, connected);//actual db file
+const DB = new sql3.Database('./data.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, connected);//actual db file
 
 function connected(err){
     if(err){
@@ -16,6 +16,7 @@ console.log("Created the DB or SQlite DB does already exist");
 
 let sql = `CREATE TABLE IF NOT EXISTS users(
     Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT NOT NULL UNIQUE,
     username TEXT NOT NULL UNIQUE,
     hashed_password TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -23,10 +24,10 @@ let sql = `CREATE TABLE IF NOT EXISTS users(
 DB.run(sql, [], (err)=>{
     //callback function
     if (err) {
-         console.log('error creating users table');
-         return;
-}
+         console.log('error creating users table', err.message);
+} else{
     console.log('CREATED TABLE')
+    }
 }); //inserting, updating, creating, deleting info inside the db
 
 export {DB};

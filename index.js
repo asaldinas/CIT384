@@ -10,7 +10,7 @@ app.get('/', (req, res)=> {
     res.send('Service is online');
 });
 
-app.get('/api', (req, res)=>{
+app.get('/api/users', (_req, res)=>{
 
     res.set('content-type', 'application/json');
     const sql = `SELECT * FROM users`;

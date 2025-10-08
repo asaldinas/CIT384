@@ -1,33 +1,35 @@
+// connect.js
 import sqlite3 from "sqlite3";
 const sql3 = sqlite3.verbose();
 
-//const DB = new sql3.Database('memory:', sqlite3.OPEN_READWRITE, connected); //create DB in memory while node is running, shut down when node is not running
-//const DB = new sql3.Database('', sqlite3.OPEN_READWRITE, connected); //anonymous file
-const DB = new sql3.Database('./data.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, connected);//actual db file
-
-function connected(err){
-    if(err){
-        console.log(err.message);
-        return;
-    }
-
-console.log("Created the DB or SQlite DB does already exist");
-}
-
-let sql = `CREATE TABLE IF NOT EXISTS users(
-    Id INTEGER PRIMARY KEY AUTOINCREMENT,
-    email TEXT NOT NULL UNIQUE,
-    username TEXT NOT NULL UNIQUE,
-    hashed_password TEXT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-)`;
-DB.run(sql, [], (err)=>{
-    //callback function
+// OPEN_CREATE so the DB file is created if missing
+const DB = new sql3.Database(
+  "./data.db",
+  sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
+  (err) => {
     if (err) {
-         console.log('error creating users table', err.message);
-} else{
-    console.log('CREATED TABLE')
+      console.error("SQLite connect error:", err.message);
+      return;
     }
-}); //inserting, updating, creating, deleting info inside the db
+    console.log("SQLite connected (data.db)");
+  }
+);
 
-export {DB};
+// Create table if it doesn't exist
+const CREATE_USERS = `
+CREATE TABLE IF NOT EXISTS users(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  email TEXT NOT NULL UNIQUE,
+  username TEXT NOT NULL UNIQUE,
+  hashed_password TEXT NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+)`;
+DB.run(CREATE_USERS, (err) => {
+  if (err) {
+    console.error("Error creating users table:", err.message);
+  } else {
+    console.log("Users table ready");
+  }
+});
+
+export { DB };

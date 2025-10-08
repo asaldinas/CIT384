@@ -1,63 +1,63 @@
-import{ DB } from './connect.js';
+// server.js
+import express from "express";
+import bcrypt from "bcrypt";
+import { DB } from "./connect.js";
 
-import express from 'express';
-import bodyParser from 'body-parser';
 const app = express();
-app.use(bodyParser.json());
 
-app.get('/', (req, res)=> {
-    res.status(200);
-    res.send('Service is online');
+// Parse JSON and form-urlencoded bodies
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.get("/", (_req, res) => res.status(200).send("Service is online"));
+
+// List users (never return passwords)
+app.get("/api/users", (_req, res) => {
+  const sql = `SELECT id, email, username, created_at FROM users ORDER BY id DESC`;
+  DB.all(sql, [], (err, rows) => {
+    if (err) return res.status(500).json({ code: 500, status: err.message });
+    res.json({ users: rows });
+  });
 });
 
-app.get('/api/users', (_req, res)=>{
+// Create user
+app.post("/api/users", async (req, res) => {
+  try {
+    const { email, username, password } = req.body;
 
-    res.set('content-type', 'application/json');
-    const sql = `SELECT * FROM users`;
-    let data = {users: []}
-    try{
-        DB.all(sql, [], (err, rows)=>{
-            if(err){
-                throw err;
-            }
-            rows.forEach(row=> {
-                data.users.push({id: row.Id, name:row.username, password:row.hashed_password});
-            });
-            let content = JSON.stringify(data);
-            res.send(content);
-        });
-    }catch(err){
-        console.log(err.message);
-        res.status(467);
-        res.send(`{"code":467, "status":"${err.message}"}`);
-    }
-});
-app.post('/api', (req, res)=>{
-    console.log(req.body);
-
-    res.set('content-type', 'application/json');
-    const sql = `INSERT INTO users(username, hashed_password) VALUES (? , ?)`;
-    let newID;
-    try{
-        DB.run(sql, [req.body.name, req.body.password], function(err){
-            if(err) throw err;
-            newID = this.lastID;//provides the autoincrement integer user ID
-            res.status(201);
-            let data = { status: 201, message: `username ${newID} saved.`};
-            let content = JSON.stringify(data);
-            res.send(content);
-        });
-    }catch(err){
-        console.log(err.message);
-        res.status(468);
-        res.send(`{"code":468, "status":"${err.message}"}`);
+    if (!email || !username || !password) {
+      return res.status(400).json({ code: 400, status: "email, username, and password are required" });
     }
 
+    if (password.length < 8) {
+      return res.status(400).json({ code: 400, status: "password must be at least 8 characters" });
+    }
+
+    const hashed = await bcrypt.hash(password, 12);
+
+    const sql = `INSERT INTO users(email, username, hashed_password) VALUES(?, ?, ?)`;
+    DB.run(sql, [email.trim(), username.trim(), hashed], function (err) {
+      if (err) {
+        // Unique constraint handling
+        if (String(err.message).includes("UNIQUE")) {
+          return res.status(409).json({ code: 409, status: "email or username already exists" });
+        }
+        return res.status(500).json({ code: 500, status: err.message });
+      }
+
+      return res.status(201).json({
+        status: 201,
+        id: this.lastID,
+        message: `User ${username} created.`,
+      });
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ code: 500, status: "internal server error" });
+  }
 });
-app.delete('/api', (req, res)=>{});
+
 app.listen(3000, (err) => {
-    if (err) {
-        console.log('ERROR: ', err.message);
-    }
-    console.log('LISTENING on port 3000')
-})
+  if (err) return console.error("ERROR:", err.message);
+  console.log("LISTENING on port 3000");
+});

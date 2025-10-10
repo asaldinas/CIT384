@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: Roboto, Work-sans;
 }
 
 /* main container */
@@ -26,40 +26,65 @@ body {
 }
 
 /* place text elements over the image */
-.img h1,
-.img h3,
-.img h5,
-.img button {
-  position: relative;
-  z-index: 1; /* above the image */
-}
+
 
 /* top bar with site name and options */
+/* top bar */
 .top-bar {
   position: absolute;
   top: 20px;
   left: 0;
   width: 100%;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 1fr; /* title | nav */
   align-items: center;
-  padding: 0 40px;
+  gap: 8px;
+  padding: 0 24px;               /* ensure right padding */
   z-index: 1;
 }
 
-/* left logo/title */
 #siteName {
+  margin: 0;
   font-size: 1.8rem;
-  margin: 0;
 }
 
-/* right nav text */
+/* right nav: wrap + right align */
 #options {
-  font-size: 1rem;
-  font-weight: normal;
   margin: 0;
+  display: flex;
+  flex-wrap: wrap;               /* allows wrapping */
+  gap: 16px 20px;                /* row/column gaps */
+  justify-content: flex-end;     /* align to the right edge */
+  align-items: center;
+  text-align: right;
+  max-width: 100%;               /* never exceed container */
+  min-width: 0;                  /* allow shrinking in grid */
+  line-height: 1.3;
+  color: white;
+}
+#options > span {
+  position: relative;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 
+/* underline animation */
+#options > span::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transition: width 0.3s ease;
+}
+
+/* when hovered */
+#options > span:hover::after {
+  width: 100%;
+}
 /* center text + button */
 .center {
   position: absolute;
@@ -70,10 +95,13 @@ body {
   z-index: 1;
 }
 
+
 /* main heading */
 .center h1 {
-  font-size: 80px;
+  font-size: 60px;
   margin-bottom: 20px;
+  color: white;
+  text-decoration: none;
 }
 
 /* button styling */

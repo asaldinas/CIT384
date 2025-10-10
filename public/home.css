@@ -1,0 +1,91 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* main container */
+.img {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* full screen height */
+  overflow: hidden;
+  color: white;
+  text-align: center;
+}
+
+/* make the image fill the div and go behind the text */
+.img img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0; /* behind everything */
+  filter: brightness(50%); /* makes it darker */
+}
+
+/* place text elements over the image */
+.img h1,
+.img h3,
+.img h5,
+.img button {
+  position: relative;
+  z-index: 1; /* above the image */
+}
+
+/* top bar with site name and options */
+.top-bar {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  z-index: 1;
+}
+
+/* left logo/title */
+#siteName {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+/* right nav text */
+#options {
+  font-size: 1rem;
+  font-weight: normal;
+  margin: 0;
+}
+
+/* center text + button */
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 1;
+}
+
+/* main heading */
+.center h1 {
+  font-size: 80px;
+  margin-bottom: 20px;
+}
+
+/* button styling */
+.center button {
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.center button:hover {
+  background-color: #ddd;
+}

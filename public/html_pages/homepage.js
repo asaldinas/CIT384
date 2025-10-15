@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     teams: "teams.html",
     projects: "projects.html",
     settings: "settings.html",
-    contacts: "contact.html",
+    contacts: "contacts.html",
   };
 
   // Loop through each navigation item

@@ -139,3 +139,10 @@ body {
     font-size: 2rem;
   }
 }
+.ticket{
+  position: relative;
+  width: 35%;
+  float: right;
+  margin: 40px 5% 40px 0;
+  font-size: 2rem;
+}

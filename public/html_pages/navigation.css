@@ -146,3 +146,58 @@ body {
   margin: 40px 5% 40px 0;
   font-size: 2rem;
 }
+/* ---------- Mission Section ---------- */
+.mission {
+  margin-top: 120px;          /* space below navbar */
+  text-align: center;
+  padding: 20px;
+}
+
+.mission h3 {
+  font-size: 4rem;
+  margin-bottom: 40px;        /* space between title and content row */
+  text-align: center;
+}
+
+.mission-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;                  /* space between image and text */
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* left side: image */
+.mission-content img {
+  width: 45%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* right side: text */
+.mission-content p {
+  width: 45%;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #333;
+  text-align: left;
+}
+
+/* ---------- Responsive layout ---------- */
+@media (max-width: 900px) {
+  .mission-content {
+    flex-direction: column; /* stack image and text vertically */
+  }
+
+  .mission-content img,
+  .mission-content p {
+    width: 90%;
+    text-align: center;
+  }
+}
+

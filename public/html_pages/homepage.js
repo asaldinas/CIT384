@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     projects: "projects.html",
     settings: "settings.html",
     contacts: "contacts.html",
-    sitename: "home.html",
+    siteName: "home.html",
   };
 
   // Loop through each navigation item

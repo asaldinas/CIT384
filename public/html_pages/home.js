@@ -1,10 +1,7 @@
-document.getElementById('user-form').addEventListener('submit', async (event) =>{
-    event.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
+    const submitButton = document.getElementById("submit");
 
-    const formData = new formData(event.target);
-    const data = Object.fromEntries(formData.entries());
-
-    try{
-        const response = await fetch ('/')
-    }
-})
+    submitButton.addEventListener("click", () => {
+        window.location.href = "form.html";
+    });
+});

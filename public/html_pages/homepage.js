@@ -23,3 +23,45 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
+(function () {
+  const toggleBtn = document.querySelector('.menu-toggle');
+  const nav = document.getElementById('options');
+
+  if (!toggleBtn || !nav) return;
+
+  const closeMenu = () => {
+    nav.classList.remove('open');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+  };
+
+  const openMenu = () => {
+    nav.classList.add('open');
+    toggleBtn.setAttribute('aria-expanded', 'true');
+  };
+
+  toggleBtn.addEventListener('click', () => {
+    const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+    expanded ? closeMenu() : openMenu();
+  });
+
+  // Close when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!nav.classList.contains('open')) return;
+    const withinToggle = toggleBtn.contains(e.target);
+    const withinNav = nav.contains(e.target);
+    if (!withinToggle && !withinNav) closeMenu();
+  });
+
+  // Reset state on resize (e.g., rotate phone or go back to desktop)
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (window.matchMedia('(min-width: 769px)').matches) {
+        // desktop: ensure nav is visible and not animated
+        nav.classList.remove('open');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    }, 100);
+  });
+})();

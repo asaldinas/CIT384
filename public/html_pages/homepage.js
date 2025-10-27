@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     settings: "settings.html",
     contacts: "contacts.html",
     siteName: "home.html",
+    submit: "form.html",
   };
 
   // Loop through each navigation item

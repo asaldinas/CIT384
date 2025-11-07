@@ -1,35 +1,32 @@
 // connect.js
-import sqlite3 from "sqlite3";
-const sql3 = sqlite3.verbose();
+import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-// OPEN_CREATE so the DB file is created if missing
-const DB = new sql3.Database(
-  "./data.db",
-  sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
-  (err) => {
-    if (err) {
-      console.error("SQLite connect error:", err.message);
-      return;
-    }
-    console.log("SQLite connected (data.db)");
-  }
-);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Create table if it doesn't exist
-const CREATE_USERS = `
-CREATE TABLE IF NOT EXISTS users(
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  email TEXT NOT NULL UNIQUE,
-  username TEXT NOT NULL UNIQUE,
-  hashed_password TEXT NOT NULL,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-)`;
-DB.run(CREATE_USERS, (err) => {
-  if (err) {
-    console.error("Error creating users table:", err.message);
-  } else {
-    console.log("Users table ready");
+// Load .env from project root (same folder as server.js/connect.js)
+dotenv.config({ path: path.join(__dirname, '.env') });
+
+function requireEnv(name) {
+  const v = process.env[name];
+  if (v === undefined || v === '') {
+    throw new Error(`Missing required env var: ${name}`);
   }
+  return v;
+}
+
+const pool = mysql.createPool({
+  host: requireEnv('DB_HOST'),
+  user: requireEnv('DB_USER'),
+  password: process.env.DB_PASSWORD ?? '',       // allow empty string if you really use none
+  database: requireEnv('DB_NAME'),
+  port: Number(process.env.DB_PORT || 3306),
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
 
-export { DB };
+export default pool;

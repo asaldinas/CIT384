@@ -1,63 +1,79 @@
 // server.js
-import express from "express";
-import bcrypt from "bcrypt";
-import { DB } from "./connect.js";
+import 'dotenv/config';
+import express from 'express';
+import bcrypt from 'bcrypt';
+import pool from './connect.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const app = express();
 
-// Parse JSON and form-urlencoded bodies
+// __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// ✅ Serve static files from ./public
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Parse JSON/form bodies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (_req, res) => res.status(200).send("Service is online"));
-
-// List users (never return passwords)
-app.get("/api/users", (_req, res) => {
-  const sql = `SELECT id, email, username, created_at FROM users ORDER BY id DESC`;
-  DB.all(sql, [], (err, rows) => {
-    if (err) return res.status(500).json({ code: 500, status: err.message });
-    res.json({ users: rows });
-  });
+// Route for the register page (optional; static already serves /register.html)
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'register.html'));
 });
 
-// Create user
-app.post("/api/users", async (req, res) => {
+// Minimal email check
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// ✅ Single register route (you had it twice)
+app.post('/api/register', async (req, res) => {
   try {
-    const { email, username, password } = req.body;
+    const { Email: email, username, password, password2 } = req.body;
 
-    if (!email || !username || !password) {
-      return res.status(400).json({ code: 400, status: "email, username, and password are required" });
+    // Validations
+    if (!email || !username || !password || !password2) {
+      return res.status(400).json({ ok: false, message: 'All fields are required.' });
     }
-
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ ok: false, message: 'Please provide a valid email.' });
+    }
+    if (password !== password2) {
+      return res.status(400).json({ ok: false, message: 'Passwords do not match.' });
+    }
     if (password.length < 8) {
-      return res.status(400).json({ code: 400, status: "password must be at least 8 characters" });
+      return res.status(400).json({ ok: false, message: 'Password must be at least 8 characters.' });
     }
 
-    const hashed = await bcrypt.hash(password, 12);
+    // Check existing
+    const [rows] = await pool.query(
+      'SELECT id FROM users WHERE email = ? OR username = ? LIMIT 1',
+      [email, username]
+    );
+    if (rows.length > 0) {
+      return res.status(409).json({ ok: false, message: 'A user with that email or username already exists.' });
+    }
 
-    const sql = `INSERT INTO users(email, username, hashed_password) VALUES(?, ?, ?)`;
-    DB.run(sql, [email.trim(), username.trim(), hashed], function (err) {
-      if (err) {
-        // Unique constraint handling
-        if (String(err.message).includes("UNIQUE")) {
-          return res.status(409).json({ code: 409, status: "email or username already exists" });
-        }
-        return res.status(500).json({ code: 500, status: err.message });
-      }
-
-      return res.status(201).json({
-        status: 201,
-        id: this.lastID,
-        message: `User ${username} created.`,
-      });
-    });
+    // Hash & insert
+    const password_hash = await bcrypt.hash(password, 12);
+    await pool.query(
+      'INSERT INTO users (email, username, password_hash) VALUES (?, ?, ?)',
+      [email, username, password_hash]
+    );
+    
+    return res.status(201).json({ ok: true, message: 'Registration successful.' });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ code: 500, status: "internal server error" });
+    if (err?.code === 'ER_DUP_ENTRY') {
+      return res.status(409).json({ ok: false, message: 'A user with that email or username already exists.' });
+    }
+    console.error('Register error:', err);
+    return res.status(500).json({ ok: false, message: 'Internal server error.' });
   }
 });
 
-app.listen(3000, (err) => {
-  if (err) return console.error("ERROR:", err.message);
-  console.log("LISTENING on port 3000");
+// ✅ Single app.listen (you had two)
+const port = Number(process.env.PORT) || 3000;
+app.listen(port, () => {
+  console.log(`Server listening on http://localhost:${port}`);
 });

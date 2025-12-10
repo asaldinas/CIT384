@@ -1,32 +1,38 @@
 body {
   margin: 0;
-  font-family: Roboto, Work-sans, sans-serif;
-  background-color: aliceblue;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(180deg, #f5f9ff 0%, #e7f1ff 40%, #f5f5f5 100%);
+  color: #222;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Poppins', system-ui, sans-serif;
+  letter-spacing: 0.03em;
 }
 
 /* ---------- Top Bar ---------- */
 .top-bar {
-  position: fixed; /* stay at top while scrolling */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 70px;
   display: flex;
-  justify-content: space-between; /* name left, options right */
+  justify-content: space-between;
   align-items: center;
   padding: 0 40px;
-  background-color: #333;
+  background: rgba(25, 33, 61, 0.96);
+  backdrop-filter: blur(10px);
   color: white;
   box-sizing: border-box;
   z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
-/* left-aligned site name */
 #siteName {
   margin: 0;
-  font-size: 1.8rem;
-  white-space: nowrap;
+  font-size: 1.6rem;
+  font-weight: 600;
 }
 
 /* right-aligned navigation options */
@@ -86,13 +92,15 @@ body {
 
 /* ---------- Title Section ---------- */
 .title {
-  margin-top: 100px; /* space below fixed navbar */
+  margin-top: 110px; /* a bit more space below navbar */
   text-align: center;
 }
+
 .title h1 {
-  font-size: 2.5rem;
+  font-size: 2.4rem;
   margin: 0;
 }
+
 
 /* ---------- Main Content Layout ---------- */
 .online-form,
@@ -220,6 +228,197 @@ body {
   .mission-content img,
   .mission-content p {
     width: 90%;
+    text-align: center;
+  }
+}
+/* ---------- Gallery Section ---------- */
+/* ---------- Gallery Section (vertical) ---------- */
+.gallery-section {
+  max-width: 800px;
+  margin: 60px auto 80px auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.gallery-section > h1 {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+}
+
+.gallery-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+
+/* Each card: image + caption */
+.gallery-card {
+  width: 100%;
+  max-width: 720px;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  transform-origin: center center;
+}
+
+.gallery-img {
+  width: 100%;
+  height: 260px;           /* consistent height */
+  object-fit: cover;       /* crops nicely while filling the card */
+  display: block;
+}
+
+.gallery-card figcaption {
+  padding: 16px 20px 20px;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: #444;
+}
+
+/* ---------- Scroll Reveal Animation ---------- */
+/* start hidden + slightly shifted down */
+/* ---------- Scroll Reveal Animation ---------- */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px) scale(0.97);
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ---------- About Page / Mission refinements ---------- */
+
+.mission {
+  margin-top: 120px;         /* space below fixed navbar */
+  text-align: center;
+  padding: 20px;
+}
+
+.mission h3 {
+  font-size: 3rem;
+  margin-bottom: 40px;
+}
+
+.mission-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+/* left: image */
+.mission-content img {
+  width: 42%;
+  max-width: 380px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* right: text */
+.mission-content p {
+  width: 50%;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #333;
+  text-align: left;
+}
+
+/* ---------- Team / Grounds Section ---------- */
+
+.team-section {
+  max-width: 1000px;
+  margin: 60px auto 80px auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.team-card {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  padding: 20px 24px;
+}
+
+/* image on the left */
+.team-image {
+  width: 40%;
+  max-width: 360px;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* text on the right */
+.team-text {
+  flex: 1;
+}
+
+.team-text h4 {
+  font-size: 1.6rem;
+  margin: 0 0 12px;
+}
+
+.team-text p {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #444;
+}
+
+/* ---------- Responsive layout for About page ---------- */
+
+@media (max-width: 900px) {
+  .mission-content {
+    flex-direction: column;
+    box-shadow: none;
+    background: transparent;
+    padding: 10px 0;
+  }
+
+  .mission-content img,
+  .mission-content p {
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .mission-content p {
+    text-align: left;
+    padding: 0 10px;
+  }
+
+  .team-card {
+    flex-direction: column;
+    padding: 18px 16px 22px;
+  }
+
+  .team-image {
+    width: 100%;
+    max-width: 100%;
+    height: 220px;
+  }
+
+  .team-text h4 {
     text-align: center;
   }
 }

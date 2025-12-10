@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Map of navigation items to their corresponding pages
   const pageLinks = {
     about: "about.html",
-    teams: "teams.html",
     projects: "projects.html",
     settings: "settings.html",
     contacts: "contacts.html",
@@ -66,3 +65,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 100);
   });
 })();
+document.addEventListener("DOMContentLoaded", () => {
+  const elements = document.querySelectorAll(".reveal-on-scroll");
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries, observerInstance) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observerInstance.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.2
+    });
+
+    elements.forEach((el, index) => {
+      el.style.transitionDelay = `${index * 0.1}s`;
+      observer.observe(el);
+    });
+  } else {
+    elements.forEach((el) => el.classList.add("is-visible"));
+  }
+});
+

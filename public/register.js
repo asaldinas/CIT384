@@ -45,20 +45,20 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!data.ok) {
         msg.textContent = data.message || "Something went wrong.";
         msg.style.color = "red";
-        if (res.status === 409) popup("That email or username already exists.");
-        else popup(data.message || "Error. Please try again.");
+        popup(data.message || "Error. Please try again.");
         return;
       }
 
-      // ✅ Registration successful
+      // Success
       msg.textContent = "Registration successful! Redirecting...";
       msg.style.color = "green";
       popup("Registration successful!");
 
-      // Redirect after 1.5 seconds (adjust delay as you like)
+      // Redirect to home.html (FIXED)
       setTimeout(() => {
-        window.location.href = "form.html";
-      }, 1500);
+        window.location.href = "home.html";  
+      }, 1200);
+
     } catch (err) {
       console.error(err);
       msg.textContent = "Network error.";

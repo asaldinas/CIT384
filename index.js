@@ -19,15 +19,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Route for the register page (optional; static already serves /register.html)
+// ✅ Route for the LOGIN page (index.html)
 app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// (Optional) Clean route for register page if you want /register
+app.get('/register', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'register.html'));
 });
 
 // Minimal email check
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// ✅ Single register route (you had it twice)
+// ✅ Register route
 app.post('/api/register', async (req, res) => {
   try {
     const { Email: email, username, password, password2 } = req.body;
@@ -72,7 +77,54 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-// ✅ Single app.listen (you had two)
+// ✅ Login route
+app.post('/api/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    // Basic validation
+    if (!username || !password) {
+      return res.status(400).json({ ok: false, message: 'Username and password are required.' });
+    }
+
+    // Find user by username OR email
+    const [rows] = await pool.query(
+      'SELECT id, username, email, password_hash FROM users WHERE username = ? OR email = ? LIMIT 1',
+      [username, username]
+    );
+
+    if (rows.length === 0) {
+      // Do NOT reveal if username or email is wrong; generic message
+      return res.status(401).json({ ok: false, message: 'Invalid username or password.' });
+    }
+
+    const user = rows[0];
+
+    // Compare password with stored hash
+    const match = await bcrypt.compare(password, user.password_hash);
+    if (!match) {
+      return res.status(401).json({ ok: false, message: 'Invalid username or password.' });
+    }
+
+    // At this point the user is authenticated.
+    // Here you could set a session / JWT, etc.
+    // For now, just send success.
+    return res.json({
+      ok: true,
+      message: 'Login successful.',
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+      },
+    });
+  } catch (err) {
+    console.error('Login error:', err);
+    return res.status(500).json({ ok: false, message: 'Internal server error.' });
+  }
+});
+
+// ✅ Single app.listen
 const port = Number(process.env.PORT) || 3000;
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);

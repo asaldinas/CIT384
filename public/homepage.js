@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const pageLinks = {
     about: "about.html",
     projects: "projects.html",
-    settings: "settings.html",
+    admin: "admin.html",
     contacts: "contacts.html",
     siteName: "home.html",
     submit: "form.html",

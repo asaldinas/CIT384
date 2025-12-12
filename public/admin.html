@@ -1,22 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="navigation.css"/>
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login • Matador's Maintenance</title>
+
+    <!-- INLINE CSS -->
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f4f7;
+            color: #222;
+        }
+
+        /* Navigation Bar */
+        .top-bar {
+            background: #b10f1e;  /* CSUN red */
+            color: white;
+            padding: 14px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
+        }
+
+        #siteName {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        #options span {
+            margin-left: 24px;
+            cursor: pointer;
+            font-size: 15px;
+            opacity: 0.9;
+        }
+        #options span:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        /* Page Layout */
+        .admin-page {
+            display: flex;
+            justify-content: center;
+            padding-top: 70px;
+        }
+
+        /* Admin Card */
+        .admin-login-wrapper {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .admin-card {
+            background: white;
+            padding: 32px 36px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        #admin-login-title {
+            margin-top: 0;
+            text-align: center;
+            font-size: 26px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .admin-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        /* Form controls */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #444;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 15px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            outline: none;
+            transition: border 0.25s;
+        }
+
+        .form-group input:focus {
+            border-color: #b10f1e; /* CSUN red */
+        }
+
+        /* Inline row for button + remember me */
+        .form-row.inline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .checkbox input {
+            margin-right: 6px;
+        }
+
+        /* Button */
+        .primary-btn {
+            background: #b10f1e;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            font-size: 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.25s;
+        }
+
+        .primary-btn:hover {
+            background: #960c19;
+        }
+
+        /* Messages */
+        .form-message {
+            margin-top: 16px;
+            font-size: 14px;
+            text-align: center;
+            min-height: 18px;
+        }
+
+        .form-message.error {
+            color: #c00;
+        }
+
+        .form-message.success {
+            color: #0a7d26;
+        }
+
+        /* Footer text */
+        .admin-footer-text {
+            margin-top: 20px;
+            font-size: 14px;
+            text-align: center;
+            color: #444;
+        }
+
+        .admin-footer-text a {
+            color: #b10f1e;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .admin-footer-text a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
+
 <body>
+    <!-- Navigation -->
     <div class="top-bar">
-      <h3 id="siteName">Matador's Maintenance</h3>
-      <h5 id="options" aria-label="Site navigation">
-        <span id="about">About</span>
-        <span id="projects">Projects</span>
-        <span id="admin">Settings</span>
-        <span id="contacts">Contact</span>
-      </h5>
+        <h3 id="siteName">Matador's Maintenance</h3>
+        <h5 id="options" aria-label="Site navigation">
+            <span id="about">About</span>
+            <span id="projects">Projects</span>
+            <span id="admin">Admin</span>
+            <span id="contacts">Contact</span>
+        </h5>
     </div>
-    <h1>User settings</h1>
-    <script src = "homepage.js"></script>
+
+    <!-- Admin Login -->
+    <main class="admin-page">
+        <section class="admin-login-wrapper">
+            <div class="admin-card">
+                <h1 id="admin-login-title">Admin Login</h1>
+                <p class="admin-subtitle">
+                    Sign in with your administrator credentials.
+                </p>
+
+                <form id="admin-login-form" novalidate>
+                    <div class="form-group">
+                        <label for="admin-username">Email or Username</label>
+                        <input
+                            type="text"
+                            id="admin-username"
+                            name="username"
+                            placeholder="admin@example.com"
+                            autocomplete="username"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="admin-password">Password</label>
+                        <input
+                            type="password"
+                            id="admin-password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-row inline">
+                        <label class="checkbox">
+                            <input type="checkbox" id="remember-me" />
+                            Remember me
+                        </label>
+
+                        <button type="submit" class="primary-btn" id="admin-submit">
+                            Sign In
+                        </button>
+                    </div>
+
+                    <p id="admin-msg" class="form-message"></p>
+
+                    <p class="admin-footer-text">
+                        Not an admin? <a href="index.html">Return to user login</a>
+                    </p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script src="admin-login.js"></script>
 </body>
 </html>

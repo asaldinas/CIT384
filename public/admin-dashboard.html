@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard • Matador's Maintenance</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f4f7;
+      color: #222;
+    }
+
+    /* Top Bar – same as admin.html */
+    .top-bar {
+      background: #b10f1e; /* CSUN red */
+      color: white;
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
+    }
+
+    #siteName {
+      margin: 0;
+    }
+
+    #siteName a {
+      text-decoration: none;
+      color: white;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    #options {
+      display: flex;
+      gap: 24px;
+      font-size: 15px;
+    }
+
+    #options a {
+      color: white;
+      text-decoration: none;
+      opacity: 0.9;
+      transition: 0.2s ease;
+    }
+
+    #options a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    /* Page layout */
+    .dashboard-page {
+      padding: 32px 24px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .dashboard-header {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 24px;
+    }
+
+    .dashboard-title {
+      font-size: 26px;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+    }
+
+    .dashboard-subtitle {
+      margin: 0;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .dashboard-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .filter-chip {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid #ccc;
+      background: #ffffff;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .filter-chip.active {
+      background: #b10f1e;
+      color: #ffffff;
+      border-color: #b10f1e;
+    }
+
+    /* Tickets grid */
+    .tickets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .ticket-card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: fadeIn 0.35s ease-out;
+    }
+
+    /* Image section – Instagram-style top image */
+    .ticket-image-wrapper {
+      position: relative;
+      background: #ddd;
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .ticket-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .ticket-no-image {
+      font-size: 13px;
+      color: #555;
+      padding: 16px;
+      text-align: center;
+    }
+
+    /* Card body */
+    .ticket-body {
+      padding: 14px 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Header – user info + status */
+    .ticket-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ticket-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #b10f1e;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .user-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .user-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .user-email {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .ticket-status-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+
+    .status-open {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .status-in_progress {
+      background: #d1ecf1;
+      color: #0c5460;
+    }
+
+    .status-closed {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    /* Ticket meta fields */
+    .ticket-meta {
+      font-size: 13px;
+      color: #555;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .ticket-meta-item span.label {
+      font-weight: 600;
+      color: #444;
+    }
+
+    .ticket-description {
+      font-size: 14px;
+      color: #333;
+      margin-top: 4px;
+      white-space: pre-wrap;
+    }
+
+    .ticket-comments {
+      font-size: 13px;
+      color: #555;
+      margin-top: 2px;
+      white-space: pre-wrap;
+    }
+
+    /* Thumbnails row for multiple images (optional) */
+    .ticket-thumbnails {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .ticket-thumbnail-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 6px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    /* Footer actions */
+    .ticket-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding-top: 8px;
+      border-top: 1px solid #eee;
+      margin-top: 4px;
+    }
+
+    .ticket-timestamp {
+      font-size: 11px;
+      color: #888;
+    }
+
+    .ticket-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-small {
+      border: none;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-in-progress {
+      background: #fff;
+      color: #0c5460;
+      border: 1px solid #0c5460;
+    }
+
+    .btn-in-progress:hover {
+      background: #0c5460;
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    .btn-complete {
+      background: #b10f1e;
+      color: #ffffff;
+      border: 1px solid #b10f1e;
+    }
+
+    .btn-complete:hover {
+      background: #960c19;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin-top: 40px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .dashboard-page {
+        padding: 24px 16px 32px;
+      }
+      .top-bar {
+        padding: 12px 16px;
+      }
+      #options {
+        gap: 16px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <div class="top-bar">
+    <h3 id="siteName">
+      <a href="index.html">Matador's Maintenance</a>
+    </h3>
+
+    <div id="options" aria-label="Site navigation">
+      <a id="about" href="about.html">About</a>
+      <a id="projects" href="projects.html">Projects</a>
+      <a id="admin" href="admin.html">Admin</a>
+      <a id="contacts" href="contacts.html">Contact</a>
+    </div>
+  </div>
+
+  <!-- Dashboard Content -->
+  <main class="dashboard-page">
+    <header class="dashboard-header">
+      <h1 class="dashboard-title">Admin Ticket Dashboard</h1>
+      <p class="dashboard-subtitle">
+        Review, track, and update all maintenance tickets submitted by users.
+      </p>
+
+      <div class="dashboard-filters">
+        <button class="filter-chip active" data-status="all">All</button>
+        <button class="filter-chip" data-status="open">Open</button>
+        <button class="filter-chip" data-status="in_progress">In Progress</button>
+        <button class="filter-chip" data-status="closed">Completed</button>
+      </div>
+    </header>
+
+    <section id="tickets-container" class="tickets-grid">
+      <!-- Cards will be populated here by admin-dashboard.js -->
+    </section>
+
+    <p id="empty-state" class="empty-state" style="display: none;">
+      No tickets found for the selected filter.
+    </p>
+  </main>
+
+  <script src="admin-dashboard.js"></script>
+</body>
+</html>

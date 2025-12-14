@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 import session from 'express-session';
 import multer from 'multer';
 import fs from 'fs';
+import rateLimit from 'express-rate-limit';
 
 const app = express();
 
@@ -47,6 +48,49 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+// ---------- RATE LIMITERS ----------
+
+// Prevent brute-force login attempts
+const loginLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 5, // 5 login attempts per minute per IP
+  message: { ok: false, message: 'Too many login attempts. Try again in 60 seconds.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Prevent abusive account creation
+const registerLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 10, // 10 registrations per hour per IP
+  message: { ok: false, message: 'Too many registration attempts. Try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Prevent ticket spam
+const ticketLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 4, // 4 ticket submissions per minute per IP
+  message: { ok: false, message: 'Too many requests. Slow down.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// OPTIONAL: Global limiter (applies to all routes)
+// Uncomment if you want a global cap on all requests.
+/*
+const globalLimiter = rateLimit({
+  windowMs: 30 * 1000, // 30 seconds
+  max: 50, // 50 total requests per 30 sec per IP
+  message: { ok: false, message: 'Too many requests. Please wait a moment.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use(globalLimiter);
+*/
+
 // ---------- Static Files ----------
 app.use(express.static(path.join(__dirname, 'public')));
 // Serve uploaded images
@@ -73,10 +117,12 @@ app.get('/admin', (req, res) => {
 // ---------- Auth Utilities ----------
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// Middleware to require ADMIN session for protected admin pages
+// Middleware to require ADMIN session for protected admin pages / APIs
 function requireAdmin(req, res, next) {
   if (!req.session || !req.session.isAdmin) {
-    return res.status(403).send('Access denied. Admin login required.');
+    return res
+      .status(403)
+      .json({ ok: false, message: 'Access denied. Admin login required.' });
   }
   next();
 }
@@ -91,8 +137,16 @@ function requireUser(req, res, next) {
   next();
 }
 
+// Quick auth check (used by form.js to gate form.html)
+app.get('/api/auth/check', (req, res) => {
+  if (req.session && req.session.userId) {
+    return res.json({ loggedIn: true });
+  }
+  return res.json({ loggedIn: false });
+});
+
 // ---------- API: Register ----------
-app.post('/api/register', async (req, res) => {
+app.post('/api/register', registerLimiter, async (req, res) => {
   try {
     const { Email: email, username, password, password2 } = req.body;
 
@@ -156,7 +210,7 @@ app.post('/api/register', async (req, res) => {
 });
 
 // ---------- API: User Login (non-admin) ----------
-app.post('/api/login', async (req, res) => {
+app.post('/api/login', loginLimiter, async (req, res) => {
   try {
     const { username, password } = req.body;
 
@@ -208,7 +262,7 @@ app.post('/api/login', async (req, res) => {
 });
 
 // ---------- API: Admin Login ----------
-app.post('/api/admin/login', async (req, res) => {
+app.post('/api/admin/login', loginLimiter, async (req, res) => {
   try {
     const { username, password } = req.body;
 
@@ -276,6 +330,7 @@ app.post('/api/logout', (req, res) => {
 app.post(
   '/api/tickets',
   requireUser,
+  ticketLimiter,
   upload.array('files', 10), // "files" must match name attribute in form
   async (req, res) => {
     try {
@@ -321,6 +376,98 @@ app.post(
   }
 );
 
+// ---------- API: Admin - Get All Tickets with User Info ----------
+app.get('/api/admin/tickets', requireAdmin, async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      `SELECT
+         t.id,
+         t.user_id,
+         t.description,
+         t.image_paths,
+         t.location,
+         t.category,
+         t.comments,
+         t.status,
+         t.created_at,
+         t.updated_at,
+         u.username,
+         u.email
+       FROM tickets t
+       JOIN users u ON t.user_id = u.id
+       ORDER BY t.created_at DESC`
+    );
+
+    const tickets = rows.map((row) => {
+      let imagePaths = [];
+      if (row.image_paths) {
+        try {
+          imagePaths = JSON.parse(row.image_paths);
+        } catch {
+          imagePaths = [];
+        }
+      }
+
+      return {
+        id: row.id,
+        description: row.description,
+        location: row.location,
+        category: row.category,
+        comments: row.comments,
+        status: row.status,
+        created_at: row.created_at,
+        updated_at: row.updated_at,
+        image_paths: imagePaths,
+        user: {
+          id: row.user_id,
+          username: row.username,
+          email: row.email,
+        },
+      };
+    });
+
+    return res.json({ ok: true, tickets });
+  } catch (err) {
+    console.error('Admin get tickets error:', err);
+    return res
+      .status(500)
+      .json({ ok: false, message: 'Internal server error.' });
+  }
+});
+
+// ---------- API: Admin - Update Ticket Status ----------
+app.patch('/api/admin/tickets/:id/status', requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const validStatuses = ['open', 'in_progress', 'closed'];
+    if (!validStatuses.includes(status)) {
+      return res
+        .status(400)
+        .json({ ok: false, message: 'Invalid status value.' });
+    }
+
+    const [result] = await pool.query(
+      'UPDATE tickets SET status = ? WHERE id = ?',
+      [status, id]
+    );
+
+    if (result.affectedRows === 0) {
+      return res
+        .status(404)
+        .json({ ok: false, message: 'Ticket not found.' });
+    }
+
+    return res.json({ ok: true, message: 'Ticket status updated.' });
+  } catch (err) {
+    console.error('Admin update ticket status error:', err);
+    return res
+      .status(500)
+      .json({ ok: false, message: 'Internal server error.' });
+  }
+});
+
 // ---------- Protected Admin Page ----------
 app.get('/admin-dashboard', requireAdmin, (req, res) => {
   // This assumes you have public/admin-dashboard.html
@@ -331,10 +478,4 @@ app.get('/admin-dashboard', requireAdmin, (req, res) => {
 const port = Number(process.env.PORT) || 3000;
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);
-});
-app.get('/api/auth/check', (req, res) => {
-  if (req.session && req.session.userId) {
-    return res.json({ loggedIn: true });
-  }
-  return res.json({ loggedIn: false });
 });

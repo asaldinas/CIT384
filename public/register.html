@@ -1,48 +1,293 @@
 <!DOCTYPE html>
-<html lang = "en">
+<html lang="en">
 <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
-  <meta charset="UTF-8"/>
-  <meta name = "viewport" content = "width=device-width, initial scale = 1.0">
-  <link rel = "stylesheet" href = "styles.css"/>
-  <title>Matadors Maintenance</title>
-  <link rel = "icon" type = "image/png" href = "csu_northridge_wbg.png"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Optional Google Font you had; not strictly required with the new styling -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="csu_northridge_wbg.png" />
+
+  <!-- Font Awesome for icons (needed for your footer icons) -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <title>Matador's Maintenance • Register</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f4f7;
+      height: 100vh;
+      display: flex;
+    }
+
+    .container {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    .left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px;
+      background: #ffffff;
+    }
+
+    .site-title {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #b10f1e;
+      text-align: center;
+      margin-bottom: 28px;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .content {
+      max-width: 420px;
+      width: 100%;
+      margin: auto;
+    }
+
+    .form-box {
+      background: #ffffff;
+      padding: 32px 34px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.15);
+      animation: fadeIn 0.35s ease-out;
+    }
+
+    .form-box h2 {
+      margin: 0 0 18px;
+      font-size: 26px;
+      color: #333;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    #user-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    #user-form input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #c4c4c4;
+      border-radius: 6px;
+      font-size: 15px;
+      background: #fdfdfd;
+      transition: 0.25s;
+    }
+
+    #user-form input:focus {
+      border-color: #b10f1e;
+      outline: none;
+      background: #ffffff;
+      box-shadow: 0 0 0 2px rgba(177, 15, 30, 0.12);
+    }
+
+    .field-label {
+      font-size: 13px;
+      color: #555;
+      margin: 4px 0 0;
+    }
+
+    .primary-btn {
+      background: #b10f1e;
+      color: white;
+      border: none;
+      padding: 11px 24px;
+      font-size: 15px;
+      font-weight: 500;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 8px;
+      transition: background 0.25s ease, box-shadow 0.2s;
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .primary-btn:hover {
+      background: #960c19;
+    }
+
+    /* Keep compatibility with your old styles if .button_class is used elsewhere */
+    .button_class {
+      /* no-op or minimal styles; main style is from .primary-btn */
+    }
+
+    .login-link-heading {
+      font-size: 15px;
+      font-weight: 400;
+      margin-top: 16px;
+      margin-bottom: 0;
+      color: #444;
+    }
+
+    .login-link-heading a {
+      color: #b10f1e;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .login-link-heading a:hover {
+      text-decoration: underline;
+    }
+
+    #msg {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #c00; /* or adjust based on success/error in JS */
+    }
+
+    .icons {
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .favIcon i {
+      margin-right: 12px;
+      font-size: 20px;
+      color: #666;
+      cursor: pointer;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .favIcon i:hover {
+      color: #b10f1e;
+      transform: translateY(-2px);
+    }
+
+    .right {
+      flex: 1.2;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #000;
+    }
+
+    .right img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.9;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+      }
+      .right {
+        height: 40%;
+      }
+    }
+  </style>
 </head>
-<body> 
-  <div class = "container">
-    <div class = "left">
-      <div class = "content">
-      <div class = "form-box">
-        <h2>Register</h2>
-            <form id = "user-form" action = "/api/register" method = "POST" novalidate>
-            <input type = "text" id = "email" name = "Email" required placeholder="Email" />
-            <br/>
-            <input type = "text" id = "username" name = "username" required placeholder="Username" />
-            <input type = "password" id = "password" name = "password" required placeholder="Password" />
-            <h5>Re-enter password:</h5>
-            <input type = "password" id = "password2" name = "password2" required placeholder="Password" />
-            <br>
-            <button type = "submit" class="button_class">Submit</button>
-            <h1>Already have an account? <a href = "index.html">Login</a></h1>
-            </form>
-            <p id = "msg"></p>
-      </div>
-      <div class = "icons">
-          <footer class = "favIcon">
-              <i class="fa-solid fa-link"></i>
-              <i class="fa-brands fa-square-instagram"></i>
-              <i class="fa-brands fa-x-twitter"></i>
-              <i class="fa-brands fa-tiktok"></i>
+<body>
+  <div class="container">
+
+    <!-- LEFT SIDE: REGISTER FORM -->
+    <div class="left">
+
+      <div class="site-title">Matador's Maintenance</div>
+
+      <div class="content">
+        <div class="form-box">
+          <h2>Create an Account</h2>
+
+          <form id="user-form" action="/api/register" method="POST" novalidate>
+            <input
+              type="text"
+              id="email"
+              name="Email"
+              required
+              placeholder="Email"
+            />
+
+            <input
+              type="text"
+              id="username"
+              name="username"
+              required
+              placeholder="Username"
+            />
+
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              placeholder="Password (min 8 characters)"
+            />
+
+            <div class="field-label">Re-enter password:</div>
+            <input
+              type="password"
+              id="password2"
+              name="password2"
+              required
+              placeholder="Confirm password"
+            />
+
+            <button
+              type="submit"
+              class="primary-btn button_class"
+            >
+              Submit
+            </button>
+
+            <h3 class="login-link-heading">
+              Already have an account?
+              <a href="index.html">Login</a>
+            </h3>
+          </form>
+
+          <p id="msg"></p>
+        </div>
+
+        <div class="icons">
+          <footer class="favIcon">
+            <i class="fa-solid fa-link"></i>
+            <i class="fa-brands fa-square-instagram"></i>
+            <i class="fa-brands fa-x-twitter"></i>
+            <i class="fa-brands fa-tiktok"></i>
           </footer>
-          </div>
+        </div>
       </div>
     </div>
-    <div class = "right">
-      <img src="annex.jpg" alt="login image">
+
+    <!-- RIGHT SIDE: IMAGE -->
+    <div class="right">
+      <img src="annex.jpg" alt="Campus building" />
     </div>
+
   </div>
-  <script src = "register.js"></script>
-   </body>
+
+  <script src="register.js"></script>
+</body>
 </html>

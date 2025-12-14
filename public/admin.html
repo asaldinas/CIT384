@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Login • Matador's Maintenance</title>
 
-    <!-- INLINE CSS -->
+    <!-- INLINE CSS (same theme as before) -->
     <style>
         body {
             margin: 0;
@@ -25,20 +25,28 @@
             box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
         }
 
-        #siteName {
-            margin: 0;
+        #siteName a {
+            text-decoration: none;
+            color: white;
             font-size: 22px;
             font-weight: 600;
             letter-spacing: 0.5px;
         }
 
-        #options span {
-            margin-left: 24px;
-            cursor: pointer;
+        #options {
+            display: flex;
+            gap: 24px;
             font-size: 15px;
-            opacity: 0.9;
         }
-        #options span:hover {
+
+        #options a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+            transition: 0.2s ease;
+        }
+
+        #options a:hover {
             opacity: 1;
             text-decoration: underline;
         }
@@ -107,10 +115,10 @@
         }
 
         .form-group input:focus {
-            border-color: #b10f1e; /* CSUN red */
+            border-color: #b10f1e;
         }
 
-        /* Inline row for button + remember me */
+        /* Inline row */
         .form-row.inline {
             display: flex;
             justify-content: space-between;
@@ -176,13 +184,14 @@
 <body>
     <!-- Navigation -->
     <div class="top-bar">
-        <h3 id="siteName">Matador's Maintenance</h3>
-        <h5 id="options" aria-label="Site navigation">
-            <span id="about">About</span>
-            <span id="projects">Projects</span>
-            <span id="admin">Admin</span>
-            <span id="contacts">Contact</span>
-        </h5>
+        <h3 id="siteName"><a href="index.html">Matador's Maintenance</a></h3>
+
+        <div id="options" aria-label="Site navigation">
+            <a id="about" href="about.html">About</a>
+            <a id="projects" href="projects.html">Projects</a>
+            <a id="admin" href="admin.html">Admin</a>
+            <a id="contacts" href="contacts.html">Contact</a>
+        </div>
     </div>
 
     <!-- Admin Login -->
@@ -197,26 +206,12 @@
                 <form id="admin-login-form" novalidate>
                     <div class="form-group">
                         <label for="admin-username">Email or Username</label>
-                        <input
-                            type="text"
-                            id="admin-username"
-                            name="username"
-                            placeholder="admin@example.com"
-                            autocomplete="username"
-                            required
-                        />
+                        <input type="text" id="admin-username" name="username" placeholder="admin@example.com" required />
                     </div>
 
                     <div class="form-group">
                         <label for="admin-password">Password</label>
-                        <input
-                            type="password"
-                            id="admin-password"
-                            name="password"
-                            placeholder="Enter your password"
-                            autocomplete="current-password"
-                            required
-                        />
+                        <input type="password" id="admin-password" name="password" placeholder="Enter your password" required />
                     </div>
 
                     <div class="form-row inline">
@@ -225,9 +220,7 @@
                             Remember me
                         </label>
 
-                        <button type="submit" class="primary-btn" id="admin-submit">
-                            Sign In
-                        </button>
+                        <button type="submit" class="primary-btn" id="admin-submit">Sign In</button>
                     </div>
 
                     <p id="admin-msg" class="form-message"></p>

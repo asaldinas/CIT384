@@ -6,45 +6,232 @@
   <link rel="icon" type="image/png" href="csu_northridge_wbg.png" />
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" 
-  integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" 
-  crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <title>Matadors Maintenance</title>
+  <!-- Font Awesome Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer"
+  />
+
+  <title>Matador's Maintenance • Login</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f4f7;
+      height: 100vh;
+      display: flex;
+    }
+
+    .container {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    .left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px;
+      background: #ffffff;
+    }
+
+    /* ADDED HEADER STYLE */
+    .site-title {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #b10f1e;
+      text-align: center;
+      margin-bottom: 28px;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .content {
+      max-width: 420px;
+      width: 100%;
+      margin: auto;
+    }
+
+    .form-box {
+      background: #ffffff;
+      padding: 32px 34px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.15);
+      animation: fadeIn 0.35s ease-out;
+    }
+
+    .form-box h2 {
+      margin: 0 0 18px;
+      font-size: 26px;
+      color: #333;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    #user-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    #user-form input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #c4c4c4;
+      border-radius: 6px;
+      font-size: 15px;
+      background: #fdfdfd;
+      transition: 0.25s;
+    }
+
+    #user-form input:focus {
+      border-color: #b10f1e;
+      outline: none;
+      background: #ffffff;
+      box-shadow: 0 0 0 2px rgba(177, 15, 30, 0.12);
+    }
+
+    .primary-btn {
+      background: #b10f1e;
+      color: white;
+      border: none;
+      padding: 11px 24px;
+      font-size: 15px;
+      font-weight: 500;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 6px;
+      transition: background 0.25s ease, box-shadow 0.2s;
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .primary-btn:hover {
+      background: #960c19;
+    }
+
+    .form-box h2 a {
+      color: #b10f1e;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .form-box h2 a:hover {
+      text-decoration: underline;
+    }
+
+    .icons {
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .favIcon i {
+      margin-right: 12px;
+      font-size: 20px;
+      color: #666;
+      cursor: pointer;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .favIcon i:hover {
+      color: #b10f1e;
+      transform: translateY(-2px);
+    }
+
+    .right {
+      flex: 1.2;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #000;
+    }
+
+    .right img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.9;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+      }
+      .right {
+        height: 40%;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
+
+    <!-- LEFT (FORM) -->
     <div class="left">
+
+      <!-- NEW SITE TITLE -->
+      <div class="site-title">Matador's Maintenance</div>
+
       <div class="content">
         <div class="form-box">
-          <h2>Login</h2>
-          <form id="user-form">
-          <input id="username" type="text" name="username" placeholder="Username">
-           <input type="password" id="user-password" name="password" placeholder="Password">
-            <br>
-          <h2>Don't have an account? <a href="register.html">Register.</a></h2>
-          <div>
-    <button type="submit" id="submit">Submit</button>
-  </div>
-</form>
+          <h2>User Login</h2>
 
+          <form id="user-form" novalidate>
+            <input
+              id="username"
+              type="text"
+              name="username"
+              placeholder="Username or Email"
+              required
+            />
+
+            <input
+              type="password"
+              id="user-password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+
+            <button type="submit" id="submit" class="primary-btn">Login</button>
+
+            <h2 style="font-size: 15px; font-weight: 400; margin-top: 16px;">
+              Need an account?
+              <a href="register.html">Register.</a>
+            </h2>
+          </form>
+        </div>
+
+        <div class="icons">
+          <footer class="favIcon">
+            <i class="fa-solid fa-link"></i>
+            <i class="fa-brands fa-square-instagram"></i>
+            <i class="fa-brands fa-x-twitter"></i>
+            <i class="fa-brands fa-tiktok"></i>
+          </footer>
         </div>
       </div>
-
-      <div class="icons">
-        <footer class="favIcon">
-          <i class="fa-solid fa-link"></i>
-          <i class="fa-brands fa-square-instagram"></i>
-          <i class="fa-brands fa-x-twitter"></i>
-          <i class="fa-brands fa-tiktok"></i>
-        </footer>
-      </div>
     </div>
 
+    <!-- RIGHT (IMAGE) -->
     <div class="right">
-      <img src="annex.jpg" alt="login image" />
+      <img src="annex.jpg" alt="Campus building" />
     </div>
+
   </div>
-    <script src = "home.js"></script>
+
+  <script src="home.js"></script>
 </body>
 </html>

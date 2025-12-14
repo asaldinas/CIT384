@@ -19,7 +19,7 @@ html, body {
   flex-direction: column;
   justify-content: center;   /* centers vertically */
   align-items: center;       /* centers horizontally */
-  background-color: #4a5759;
+  background-color: #b10f1e;
   position: relative;
   padding: 24px;
 }

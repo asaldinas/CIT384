@@ -1,32 +1,15 @@
 // connect.js
-import mysql from 'mysql2/promise';
-import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import "dotenv/config";
+import mysql from "mysql2/promise";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const { DATABASE_URL } = process.env;
 
-// Load .env from project root (same folder as server.js/connect.js)
-dotenv.config({ path: path.join(__dirname, '.env') });
-
-function requireEnv(name) {
-  const v = process.env[name];
-  if (v === undefined || v === '') {
-    throw new Error(`Missing required env var: ${name}`);
-  }
-  return v;
+if (!DATABASE_URL) {
+  throw new Error(
+    "DATABASE_URL is not set. Check your .env file and PlanetScale connection string."
+  );
 }
 
-const pool = mysql.createPool({
-  host: requireEnv('DB_HOST'),
-  user: requireEnv('DB_USER'),
-  password: process.env.DB_PASSWORD ?? '',       // allow empty string if you really use none
-  database: requireEnv('DB_NAME'),
-  port: Number(process.env.DB_PORT || 3306),
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-});
+const pool = mysql.createPool(DATABASE_URL);
 
 export default pool;

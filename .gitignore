@@ -2,7 +2,7 @@
 *.sqlite
 *.db
 *.sqlite3
-**/node_modules/
+node_modules/
+uploads/
 test.js
 init-db.js
-**/uploads/

@@ -3,3 +3,6 @@
 *.db
 *.sqlite3
 node_modules/
+*.test.js
+*.init-db.js
+uploads/
